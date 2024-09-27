@@ -26,15 +26,14 @@ resource "aws_security_group" "allow_tls" {
   description = "Allow TLS inbound traffic and all outbound traffic"
   vpc_id      = module.vpc.vpc_id
 
+  ingress {
+    from_port = 22
+    to_port = 22
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   tags = {
     Name = "allow_tls"
   }
-}
-
-resource "aws_vpc_security_group_ingress_rule" "allow_tls_ipv4" {
-  security_group_id = aws_security_group.allow_tls.id
-  cidr_ipv4         = "0.0.0.0/0"
-  from_port         = 443
-  ip_protocol       = "tcp"
-  to_port           = 443
 }
